@@ -4,7 +4,7 @@ import { Star } from 'lucide-react';
 const TESTIMONIALS = [
   { name: 'Adaeze Okonkwo',  role: 'CTO, FinPay Nigeria',   initials: 'A', color: 'bg-[#7bd850] text-black', stars: 5, text: 'Chukwudi delivered our data pipeline 2 weeks early. Fraud losses dropped 89% in the first month. Exceptional talent.' },
   { name: 'Kolade Mensah',   role: 'VP Data, RetailCo',      initials: 'K', color: 'bg-blue-500 text-white',  stars: 5, text: 'The Azure warehouse reduced reporting from 8 hours to 15 minutes. Our sales team finally has real-time visibility they needed.' },
-  { name: 'Sarah Thompson',  role: 'Founder, GrowthStack',   initials: 'S', color: 'bg-purple-500 text-white', stars: 5, text: 'Technically exceptional and never misses a deadline. He's the first developer I call for any new project. Highly recommended.' },
+  { name: 'Sarah Thompson',  role: 'Founder, GrowthStack',   initials: 'S', color: 'bg-purple-500 text-white', stars: 5, text: 'Technically exceptional and never misses a deadline. He&apos;s the first developer I call for any new project. Highly recommended.' },
   { name: 'Olumide Adesanya',role: 'CMO, ShopEase Africa',   initials: 'O', color: 'bg-amber-500 text-black',  stars: 5, text: 'His segmentation model increased our email conversion by 31%. He explained every technical decision clearly to our team.' },
 ];
 

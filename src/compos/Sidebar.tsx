@@ -6,43 +6,44 @@ import {
   Linkedin, Github, Twitter, Dribbble,
   Download, Send, Menu, X,
 } from 'lucide-react';
-import img1 from '../assets/img1.jpg';
-import img2 from '../assets/img2.png';
 
 const NAV = [
-  { icon: <User size={18} />,         to: '/',              label: 'About'        },
-  { icon: <Code size={18} />,         to: '/skills',        label: 'Skills'       },
-  { icon: <Briefcase size={18} />,    to: '/works',         label: 'Works'        },
-  { icon: <FolderOpen size={18} />,   to: '/projects',      label: 'Projects'     },
-  { icon: <GraduationCap size={18} />,to: '/education',     label: 'Education'    },
-  { icon: <FileText size={18} />,     to: '/resume',        label: 'Resume'       },
-  { icon: <BookOpen size={18} />,     to: '/blog',          label: 'Blog'         },
-  { icon: <Star size={18} />,         to: '/testimonials',  label: 'Testimonials' },
-  { icon: <MessageSquare size={18} />,to: '/contact',       label: 'Contact'      },
+  { icon: <User size={18} />,          to: '/',             label: 'About'        },
+  { icon: <Code size={18} />,          to: '/skills',       label: 'Skills'       },
+  { icon: <Briefcase size={18} />,     to: '/works',        label: 'Works'        },
+  { icon: <FolderOpen size={18} />,    to: '/projects',     label: 'Projects'     },
+  { icon: <GraduationCap size={18} />, to: '/education',    label: 'Education'    },
+  { icon: <FileText size={18} />,      to: '/resume',       label: 'Resume'       },
+  { icon: <BookOpen size={18} />,      to: '/blog',         label: 'Blog'         },
+  { icon: <Star size={18} />,          to: '/testimonials', label: 'Testimonials' },
+  { icon: <MessageSquare size={18} />, to: '/contact',      label: 'Contact'      },
 ];
 
-const IMAGES  = [img2, img1];
-const ROLES   = ['Software Engineer', 'Data Scientist', 'FullStack Developer', 'Graphic Designer'];
+// Use online images instead of local imports to avoid TypeScript asset issues
+const IMAGES = [
+  '/img2.png',
+  '/img1.jpg',
+];
+
+const ROLES = ['Software Engineer', 'Data Scientist', 'FullStack Developer', 'Graphic Designer'];
 
 // ── Typewriter ────────────────────────────────────────────────────────────────
 function Typewriter({ texts }: { texts: string[] }) {
-  const [idx, setIdx]       = useState(0);
-  const [char, setChar]     = useState(0);
-  const [text, setText]     = useState('');
-  const [deleting, setDel]  = useState(false);
+  const [idx, setIdx]     = useState(0);
+  const [char, setChar]   = useState(0);
+  const [text, setText]   = useState('');
+  const [del, setDel]     = useState(false);
 
   useEffect(() => {
     const cur   = texts[idx];
-    const speed = deleting ? 45 : 90;
+    const speed = del ? 45 : 90;
     const timer = setTimeout(() => {
-      if (!deleting) {
-        const next = cur.substring(0, char + 1);
-        setText(next);
+      if (!del) {
+        setText(cur.substring(0, char + 1));
         setChar(c => c + 1);
         if (char + 1 === cur.length) setTimeout(() => setDel(true), 1600);
       } else {
-        const next = cur.substring(0, char - 1);
-        setText(next);
+        setText(cur.substring(0, char - 1));
         setChar(c => c - 1);
         if (char - 1 === 0) {
           setDel(false);
@@ -51,37 +52,45 @@ function Typewriter({ texts }: { texts: string[] }) {
       }
     }, speed);
     return () => clearTimeout(timer);
-  }, [char, deleting, idx, texts]);
+  }, [char, del, idx, texts]);
 
   return (
     <span className="text-[#7bd850] font-semibold text-sm">
-      {text}<span className="animate-blink">|</span>
+      {text}<span className="animate-blink border-r-2 border-[#7bd850] ml-0.5">&nbsp;</span>
     </span>
   );
 }
 
-// ── Social button ─────────────────────────────────────────────────────────────
 const Social = ({ icon }: { icon: React.ReactNode }) => (
   <a href="#" className="w-8 h-8 rounded-full bg-neutral-800 border border-white/5 flex items-center justify-center text-white hover:bg-[#7bd850] hover:text-black transition-all duration-200">
     {icon}
   </a>
 );
 
-// ── Main Sidebar component ────────────────────────────────────────────────────
 export default function Sidebar() {
-  const navigate        = useNavigate();
+  const navigate              = useNavigate();
   const [imgIdx, setImgIdx]   = useState(0);
   const [menuOpen, setMenu]   = useState(false);
 
-  // Image crossfade
   useEffect(() => {
     const t = setInterval(() => setImgIdx(i => (i + 1) % IMAGES.length), 4000);
     return () => clearInterval(t);
   }, []);
 
+  const ProfileImages = () => (
+    <div className="relative w-full h-72 overflow-hidden bg-neutral-900">
+      {IMAGES.map((img, i) => (
+        <img
+          key={i} src={img} alt="profile"
+          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${i === imgIdx ? 'opacity-100' : 'opacity-0'}`}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <>
-      {/* ── COL 1: Icon nav (desktop only) ─────────────────────────────── */}
+      {/* ── COL 1: Icon nav (desktop) ───────────────────────────────────── */}
       <nav className="hidden md:flex flex-col gap-1 bg-[#1e1e1f] p-3 rounded-xl border border-white/5 shadow-2xl sticky top-4 h-fit">
         {NAV.map(item => (
           <NavLink
@@ -101,18 +110,9 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* ── COL 2: Profile card ─────────────────────────────────────────── */}
+      {/* ── COL 2: Profile card (desktop) ───────────────────────────────── */}
       <aside className="bg-neutral-950 rounded-2xl border border-white/10 overflow-hidden shadow-2xl sticky top-4 h-fit hidden md:block">
-        {/* Crossfading images */}
-        <div className="relative w-full h-72 overflow-hidden bg-neutral-900">
-          {IMAGES.map((img, i) => (
-            <img
-              key={i} src={img} alt="profile"
-              className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${i === imgIdx ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ))}
-        </div>
-
+        <ProfileImages />
         <div className="p-5 flex flex-col items-center text-center">
           <h2 className="text-lg font-bold tracking-tight">CHUKWUDI VINCENT</h2>
           <div className="mt-1.5"><Typewriter texts={ROLES} /></div>
@@ -123,7 +123,6 @@ export default function Sidebar() {
             <Social icon={<Dribbble size={14} />} />
           </div>
         </div>
-
         <div className="flex border-t border-white/10">
           <button className="flex-1 py-3.5 text-xs font-medium flex items-center justify-center gap-1.5 text-neutral-400 hover:text-[#7bd850] transition-colors">
             <Download size={13} /> Download CV
@@ -135,9 +134,8 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* ── MOBILE: full-width header card ──────────────────────────────── */}
+      {/* ── MOBILE header ───────────────────────────────────────────────── */}
       <div className="md:hidden col-span-full bg-neutral-950 rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-        {/* Image on top */}
         <div className="relative w-full h-72 overflow-hidden bg-neutral-900">
           {IMAGES.map((img, i) => (
             <img
@@ -147,7 +145,6 @@ export default function Sidebar() {
           ))}
         </div>
 
-        {/* Name + role + socials + hamburger */}
         <div className="flex items-center gap-3 px-4 py-3">
           <div className="flex-1 min-w-0">
             <h2 className="text-sm font-bold truncate">CHUKWUDI VINCENT</h2>
@@ -167,7 +164,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Slide-down nav */}
         <div className={`overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-screen' : 'max-h-0'}`}>
           <div className="border-t border-white/10 p-3 flex flex-col gap-0.5">
             {NAV.map(item => (
@@ -187,7 +183,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Action buttons */}
         <div className="flex border-t border-white/10">
           <button className="flex-1 py-3 text-xs font-medium flex items-center justify-center gap-1.5 text-neutral-400 hover:text-[#7bd850] transition-colors">
             <Download size={13} /> Download CV

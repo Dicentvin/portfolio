@@ -20,11 +20,7 @@ const NAV = [
 ];
 
 // Use online images instead of local imports to avoid TypeScript asset issues
-const IMAGES = [
-  '/img2.png',
-  '/img1.jpg',
-];
-
+const IMAGES = ['/img2.png', '/img1.jpg'];
 const ROLES = ['Software Engineer', 'Data Scientist', 'FullStack Developer', 'Graphic Designer'];
 
 // ── Typewriter ────────────────────────────────────────────────────────────────

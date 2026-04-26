@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: define CSS variables for shadcn theme */
+:root {
+  --border: 220 14% 95%;
+  --input: 220 14% 95%;
+  --ring: 215 20% 65%;
+  --background: 0 0% 10%;
+  --foreground: 0 0% 100%;
+  --primary: 140 70% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 85%;
+  --secondary-foreground: 0 0% 100%;
+  --destructive: 0 75% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --muted: 220 14% 85%;
+  --muted-foreground: 0 0% 50%;
+  --accent: 0 0% 10%;
+  --accent-foreground: 0 0% 100%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 100%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 100%;
+  --radius: 0.5rem;
+}
